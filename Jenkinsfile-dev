@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     echo '###Start Installation###'
-                    sh 'pip3 --version'
+                    sh 'cat /etc/os-release'
                     sh 'pip3 install -r Jenkins/python/requirements.txt'
                     sh 'pip3 install pylint'
                 }
