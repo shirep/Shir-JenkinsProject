@@ -5,6 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
+                    echo '###Start Checkout###'
                     checkout scm
                 }
             }
@@ -13,7 +14,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'pip install -r requirements.txt'
+                    echo '###Start Installation###'
+                    sh 'pip install -r Jenkins/python/requirements.txt'
                     sh 'pip3 install pylint'
                 }
             }
@@ -22,7 +24,8 @@ pipeline {
         stage('Lint') {
             steps {
                 script {
-                    sh 'pylint app.py'
+                    echo '###Start Lint###'
+                    sh 'pylint Jenkins/python/app.py'
                 }
             }
         }
@@ -30,6 +33,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
+                    echo '###Start Build###'
                     sh 'docker build -t shir-python-image .'
                 }
             }
@@ -38,6 +42,7 @@ pipeline {
         stage('Publish Docker Image') {
             steps {
                 script {
+                    echo '###Start Push###'
                     sh 'docker push shir-python-image'
                 }
             }
