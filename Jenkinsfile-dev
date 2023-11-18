@@ -14,6 +14,7 @@ pipeline {
             steps {
                 script {
                     echo '###Start Build###'
+                    sh 'pwd'
                     sh 'docker build -t shir-python-image .'
                 }
             }
