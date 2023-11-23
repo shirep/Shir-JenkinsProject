@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     echo '###Start Push###'
-                    //sh 'docker login
+                    //sh 'docker login'
                     //sh 'docker push shir-python-image'
                 }
             }
@@ -47,6 +47,7 @@ pipeline {
                     }
                 }
             }
+        } // הוספתי סיומת ל-Stages
     }
 
     post {
