@@ -25,10 +25,28 @@ pipeline {
             steps {
                 script {
                     echo '###Start Push###'
-                    sh 'docker push shir-python-image'
+                    //sh 'docker login
+                    //sh 'docker push shir-python-image'
                 }
             }
         }
+
+        stage('Build and Publish Docker Image') {
+            steps {
+                script {
+                    def dockerRepository = 'shirep/jenkins-project'
+                    def gitRevision = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+
+                    withCredentials([string(credentialsId: 'dockerhub', variable: 'DOCKER_HUB_CREDENTIALS')]) {
+                        // Build and push Docker image
+                        //sh "docker build -t ${dockerRepository}:${gitRevision} ."
+                        sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
+                        sh "docker push ${dockerRepository}:${gitRevision}"
+                        sh "docker tag ${dockerRepository}:${gitRevision} ${dockerRepository}:latest"
+                        sh "docker push ${dockerRepository}:latest"
+                    }
+                }
+            }
     }
 
     post {
