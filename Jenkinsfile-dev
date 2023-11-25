@@ -56,7 +56,7 @@ pipeline {
                     sh 'git checkout main'
                     sh 'git merge origin/dev'
                     sh 'git config --global credential.helper store'
-                    sh "echo https://$GIT_TOKEN:x-oauth-basic@github.com > ~/.git-credentials"
+                    sh 'echo https://$GIT_TOKEN:x-oauth-basic@github.com > ~/.git-credentials'
                     sh 'git push https://github.com/shirep/Shir-JenkinsProject.git main'
                 }
             }
