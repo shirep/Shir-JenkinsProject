@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    environment {DOCKERHUB_CREDENTIALS= credentials('dockerhub')}
     stages {
         stage('Checkout') {
             steps {
@@ -21,32 +21,19 @@ pipeline {
             }
         }
 
-        stage('Publish Docker Image') {
-            steps {
-                script {
-                    echo '###Start Push###'
-                    //sh 'docker login'
-                    //sh 'docker push shir-python-image'
-                }
-            }
-        }
-
-        stage('Build and Publish Docker Image') {
-            steps {
-                script {
-                    repositoryName('shirep/jenkins-project')            
-                    tag('${GIT_REVISION,length=9}')
-                    registryCredentials('dockerhub')
-                    forcePull(false)
-                    forceTag(false)            
-                    createFingerprints(false)            
-                    skipDecorate()
-                    }
-                }
-            }
-        }
-    
-
+        stage('Login to Docker Hub') {         
+            steps{                            
+	            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
+	            echo 'Login Completed'                
+            }           
+        }               
+        stage('Push Image to Docker Hub') {         
+          steps{                            
+	        sh 'sudo docker push dockerhubusername/dockerhubreponame:$BUILD_NUMBER'                 
+            echo 'Push Image Completed'       
+      }           
+    }      
+  } //stages 
     post {
         success {
             echo 'Success'
