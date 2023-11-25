@@ -16,7 +16,7 @@ pipeline {
 		    echo '###Start Build###'
                     sh 'pwd'
                     sh 'ls'
-                    sh 'docker build -t shir-python-image:$BUILD_NUMBER .'
+                    sh 'docker build -t shirep/shir-python-image:$BUILD_NUMBER .'
                 }
             }
         }
@@ -29,7 +29,7 @@ pipeline {
         }               
         stage('Push Image to Docker Hub') {         
           steps{                            
-	        sh 'docker push shir-python-image:$BUILD_NUMBER'                 
+	        sh 'docker push shirep/shir-python-image:$BUILD_NUMBER'                 
             	echo 'Push Image Completed'       
       }           
     }      
