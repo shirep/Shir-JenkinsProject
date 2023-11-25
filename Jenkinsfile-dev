@@ -57,7 +57,7 @@ pipeline {
                         sh 'git checkout main'
                         sh 'git merge origin/dev'
                         sh 'git tag -a v1.0.$BUILD_NUMBER -m "Release version 1.0.$BUILD_NUMBER"'
-                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@https://github.com/shirep/Shir-JenkinsProject.git --tags')
+                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/shirep/Shir-JenkinsProject.git --tags')
                     }
                 }
             }
