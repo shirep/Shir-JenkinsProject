@@ -54,7 +54,7 @@ pipeline {
             steps{
 		        script {
                     sh 'git checkout main'
-                    sh 'git merge dev'
+                    sh 'git merge origin/dev'
                     sh 'git config --global credential.helper store'
                     sh 'git config --global user.email "shirepshtein1@gmail.com"'
                     sh 'git config --global user.name "shirep"'
