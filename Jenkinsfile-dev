@@ -40,7 +40,7 @@ pipeline {
         stage('Docker Run') {  
             steps{
 		        script {
-                    sh 'docker run -itd --name shir-container shirep/shir-python-image:$BUILD_NUMBER'
+                    sh 'docker run -itd --name shir-container-$BUILD_NUMBER shirep/shir-python-image:$BUILD_NUMBER'
                 }
             }
         }
