@@ -5,36 +5,43 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    echo '####Start Checkout####'
                     checkout scm
                 }
             }
         }
-        stage('Docker Build') {
+        stage('Docker Build Shir Python Image') {
             steps {
                 script {
-		    echo '###Start Build###'
-                    sh 'pwd'
-                    sh 'ls'
-                    sh 'docker build -t shirep/shir-python-image:$BUILD_NUMBER .'
+                    sh 'docker build -t shir-python-image:$BUILD_NUMBER .'
+                    echo 'Build Completed' 
                 }
             }
         }
 
         stage('Login to Docker Hub') {         
-            steps{                            
-		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
-	        echo 'Login Completed'                
-            }           
-        }               
+            steps{
+		        script {
+		            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
+	                echo 'Login Completed'                
+                }           
+            } 
+        }  
+
         stage('Push Image to Docker Hub') {         
-          steps{                            
-	        sh 'docker push shirep/shir-python-image:$BUILD_NUMBER'                 
-            	echo 'Push Image Completed'       
-      }           
-    }      
-  } //stages 
+            steps{
+		        script {
+		            sh 'docker tag shir-python-image:$BUILD_NUMBER shirep/shir-python-image:$BUILD_NUMBER'
+	                sh 'docker push shirep/shir-python-image:$BUILD_NUMBER'                 
+            	    echo 'Push Image Completed'       
+                }           
+            } 
+        }
+  }
+
     post {
+        always {  
+            sh 'docker logout'           
+        } 
         success {
             echo 'Success'
         }
