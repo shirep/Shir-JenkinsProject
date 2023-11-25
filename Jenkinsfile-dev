@@ -37,7 +37,7 @@ pipeline {
                     def dockerRepository = 'shirep/jenkins-project'
                     def gitRevision = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
 
-                    withCredentials([string(credentialsId: 'dockerhub', variable: 'DOCKER_HUB_CREDENTIALS')]) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_HUB_USR', passwordVariable: 'DOCKER_HUB_PSW')]) {
                         // Build and push Docker image
                         //sh "docker build -t ${dockerRepository}:${gitRevision} ."
                         sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
