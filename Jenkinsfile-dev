@@ -16,7 +16,7 @@ pipeline {
 		    echo '###Start Build###'
                     sh 'pwd'
                     sh 'ls'
-                    sh 'docker build -t shir-python-image .'
+                    sh 'docker build -t shir-python-image:$BUILD_NUMBER .'
                 }
             }
         }
