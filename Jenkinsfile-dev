@@ -53,15 +53,15 @@ pipeline {
         stage('Merge Dev to Main') {  
             steps{
 		        script {
-                    sh 'git checkout main'
-                    sh 'git merge origin/dev'
-                    sh 'git config --global credential.helper store'
-                    sh 'echo https://$GIT_TOKEN:x-oauth-basic@github.com > ~/.git-credentials'
-                    sh 'git push https://github.com/shirep/Shir-JenkinsProject.git main'
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                        sh 'git checkout main'
+                        sh 'git merge origin/dev'
+                        sh("git tag -a some_tag -m 'Jenkins'")
+                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@shirep/Shir-JenkinsProject.git --tags')
+                    }
                 }
             }
         }
-    }
 
     post {
         always {  
