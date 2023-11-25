@@ -20,20 +20,18 @@ pipeline {
 
         stage('Login to Docker Hub') {         
             steps{
-		script {
-		    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
-		    echo 'Login Completed'                
+		        script {
+		            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
+	                echo 'Login Completed'                
                 }           
             } 
         }  
 
         stage('Push Image to Docker Hub') {         
             steps{
-		script {
-		    sh 'docker tag shir-python-image:$BUILD_NUMBER shirep/shir-python-image:$BUILD_NUMBER'
-                    sh 'docker tag shir-python-image:$BUILD_NUMBER shirep/shir-python-image:latest'
-                    sh 'docker push shirep/shir-python-image:$BUILD_NUMBER'
-                    sh 'docker push shirep/shir-python-image:latest'                 
+		        script {
+		            sh 'docker tag shir-python-image:$BUILD_NUMBER shirep/shir-python-image:$BUILD_NUMBER'
+                    sh 'docker push shirep/shir-python-image:$BUILD_NUMBER'               
                     echo 'Push Image Completed'        
                 }           
             } 
@@ -41,8 +39,8 @@ pipeline {
 
         stage('Docker Run') {  
             steps{
-		script {
-                    sh 'docker run -itd --name shir-container shirep/shir-python-image:$BUILD_NUMBER'
+		        script {
+                    sh 'docker run --rm shirep/shir-python-image:$BUILD_NUMBER'
                 }
             }
         }
