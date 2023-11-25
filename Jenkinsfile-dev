@@ -13,7 +13,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    echo '###Start Build###'
+		    echo '###Start Build###'
                     sh 'pwd'
                     sh 'ls'
                     sh 'docker build -t shir-python-image .'
@@ -23,14 +23,14 @@ pipeline {
 
         stage('Login to Docker Hub') {         
             steps{                            
-	            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
-	            echo 'Login Completed'                
+		sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
+	        echo 'Login Completed'                
             }           
         }               
         stage('Push Image to Docker Hub') {         
           steps{                            
-	        sh 'sudo docker push dockerhubusername/dockerhubreponame:$BUILD_NUMBER'                 
-            echo 'Push Image Completed'       
+	        sh 'docker push dockerhubusername/dockerhubreponame:$BUILD_NUMBER'                 
+            	echo 'Push Image Completed'       
       }           
     }      
   } //stages 
