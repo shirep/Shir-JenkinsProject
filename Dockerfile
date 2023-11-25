@@ -1,6 +1,7 @@
 FROM python:3.8
 WORKDIR /app
 COPY . /app
+RUN ls -la /app
 RUN pip install -r ./Jenkins/python/requirements.txt
 RUN pip3 install pylint
 RUN pwd
