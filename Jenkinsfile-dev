@@ -34,20 +34,17 @@ pipeline {
         stage('Build and Publish Docker Image') {
             steps {
                 script {
-                    def dockerRepository = 'shirep/jenkins-project'
-                    def gitRevision = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
-
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_HUB_USR', passwordVariable: 'DOCKER_HUB_PSW')]) {
-                        // Build and push Docker image
-                        //sh "docker build -t ${dockerRepository}:${gitRevision} ."
-                        sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
-                        sh "docker push ${dockerRepository}:${gitRevision}"
-                        sh "docker tag ${dockerRepository}:${gitRevision} ${dockerRepository}:latest"
-                        sh "docker push ${dockerRepository}:latest"
+                    repositoryName('shirep/jenkins-project')            
+                    tag('${GIT_REVISION,length=9}')
+                    registryCredentials('dockerhub')
+                    forcePull(false)
+                    forceTag(false)            
+                    createFingerprints(false)            
+                    skipDecorate()
                     }
                 }
             }
-        } // הוספתי סיומת ל-Stages
+        }
     }
 
     post {
