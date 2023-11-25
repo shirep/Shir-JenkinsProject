@@ -58,7 +58,7 @@ pipeline {
                     sh 'git config --global credential.helper store'
                     sh 'git config --global user.email "shirepshtein1@gmail.com"'
                     sh 'git config --global user.name "shirep"'
-                    sh "git push https://${env.GIT_CREDENTIALS}@github.com/your-repository.git main"
+                    sh "git push https://${env.GIT_CREDENTIALS}@github.com/shirep/Shir-JenkinsProject.git main"
                 }
             }
         }
