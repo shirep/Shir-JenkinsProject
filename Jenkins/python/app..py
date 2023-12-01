@@ -1,6 +1,6 @@
 import boto3
 import time
-from json_logger import JSONLogger
+from pythonjsonlogger import jsonlogger
 import os
 
 logger = JSONLogger()
