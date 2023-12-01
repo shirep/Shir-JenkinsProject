@@ -10,10 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                	checkout([$class: 'GitSCM', 
-                              branches: [[name: '*/dev']],
-                              userRemoteConfigs: [[url: 'https://github.com/shirep/Shir-JenkinsProject.git',
-                                        credentialsId: 'git-credentials-id']]])
+                	checkout scm
                 }
             }
         }
@@ -56,11 +53,12 @@ pipeline {
         stage('Merge Dev to Main') {  
             steps{
 		        script {
+			git(credentialsId: env.GIT_CREDENTIALS, url: 'https://github.com/shirep/Shir-JenkinsProject.git')
                         sh 'git checkout main'
                         sh 'git merge origin/dev'
                         sh 'git tag -a v1.0.$BUILD_NUMBER -m "Release version 1.0.$BUILD_NUMBER"'
                         //sh 'git config --global credential.helper "!f() { echo username=x-access-token; echo password=$GIT_CREDENTIALS; }; f"'
-                        sh 'git push https://github.com/shirep/Shir-JenkinsProject.git --tags'
+                        sh 'git push --credentials ${env.GIT_CREDENTIALS}'
                     }
                 }
             }
