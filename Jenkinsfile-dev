@@ -59,7 +59,7 @@ pipeline {
                         sh 'git checkout main'
                         sh 'git merge origin/dev'
                         sh 'git tag -a v1.0.$BUILD_NUMBER -m "Release version 1.0.$BUILD_NUMBER"'
-                        //sh 'git config --global credential.helper "!f() { echo username=x-access-token; echo password=$GITHUB_TOKEN; }; f"'
+                        //sh 'git config --global credential.helper "!f() { echo username=x-access-token; echo password=$GIT_CREDENTIALS; }; f"'
                         sh 'git push https://github.com/shirep/Shir-JenkinsProject.git --tags'
                     }
                 }
