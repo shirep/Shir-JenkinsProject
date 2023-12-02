@@ -12,7 +12,7 @@ pipeline {
                 script {
                 	git branch: 'dev',
                         	credentialsId: 'git-credentials-id',
-                        	url: 'git@github.com/shirep/shirep/Shir-JenkinsProject.git'
+                        	url: 'ssh@github.com/shirep/shirep/Shir-JenkinsProject.git'
                 }
             }
         }
