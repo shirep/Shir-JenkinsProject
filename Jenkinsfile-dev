@@ -6,15 +6,16 @@ pipeline {
         }
 
     stages {
-
         stage('Checkout') {
             steps {
                 script {
-                	checkout scm
+                	git branch: 'dev',
+                        	credentialsId: 'git-credentials-id',
+                        	url: 'https://github.com/shirep/Shir-JenkinsProject.git'
                 }
             }
         }
-
+        
         stage('Docker Build Shir Python Image') {
             steps {
                 script {
@@ -54,22 +55,22 @@ pipeline {
         stage('Merge Dev to Main') {  
             steps{
 		        script {
-                    withCredentials([usernamePassword(credentialsId: 'git-credentials-id', passwordVariable: 'GIT_TOKEN', usernameVariable: 'GIT_USERNAME')]) {
-    		            sh """
-        		            git config --global user.email "shirepshtein1@gmail.com"
-        		            git config --global user.name "shirep"
-        		            git config --global credential.helper "!f() { echo username=$GIT_USERNAME; echo password=$GIT_TOKEN; }; f"
-        		            git checkout main
-        		            git merge origin/dev
-        		            git tag -a v1.0.$BUILD_NUMBER -m "Release version 1.0.$BUILD_NUMBER"
-        		            git push origin main --tags
-    		            """
-			        }
+             withCredentials([usernamePassword(credentialsId: 'git-credentials-id', passwordVariable: 'GIT_TOKEN', usernameVariable: 'GIT_USERNAME')]) {
+    		sh """
+        		git config --global user.email "shirepshtein1@gmail.com"
+        		git config --global user.name "shirep"
+        		git config --global credential.helper "!f() { echo username=$GIT_USERNAME; echo password=$GIT_TOKEN; }; f"
+        		git checkout main
+        		git merge origin/dev
+        		git tag -a v1.0.$BUILD_NUMBER -m "Release version 1.0.$BUILD_NUMBER"
+        		git push origin main --tags
+    		"""
+			}
                     	
+                    }
                 }
             }
         }
-    }
     
 
     post {
