@@ -61,7 +61,6 @@ pipeline {
         		git config --global user.name "shirep"
         		git config --global credential.helper "!f() { echo username=$GIT_USERNAME; echo password=$GIT_TOKEN; }; f"
         		git checkout main
-			git pull origin main
         		git merge origin/dev
         		git tag -a v1.0.$BUILD_NUMBER -m "Release version 1.0.$BUILD_NUMBER"
         		git push origin main --tags
