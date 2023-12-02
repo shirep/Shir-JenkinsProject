@@ -53,8 +53,9 @@ pipeline {
         stage('Merge Dev to Main') {  
             steps{
 		        script {
-				sh 'git remote set-url origin git@github.com:shirep/Shir-JenkinsProject.git'
-				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git-credentials-id', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+				            sh 'git remote set-url origin git@github.com:shirep/Shir-JenkinsProject.git'
+            env.GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no'
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git-credentials-id', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
                 sh '''
                     git config --global user.email "shirepshtein1@gmail.com"
                     git config --global user.name "shirep"
