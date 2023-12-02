@@ -53,7 +53,7 @@ pipeline {
         stage('Merge Dev to Main') {  
             steps{
 		        script {
-			git(credentialsId: env.GIT_CREDENTIALS, url: 'https://github.com/shirep/Shir-JenkinsProject.git')
+			git(credentialsId: env.GIT_CREDENTIALS, url: 'ssh://github.com/shirep/Shir-JenkinsProject.git')
                         sh 'git checkout main'
                         sh 'git merge origin/dev'
                         sh 'git tag -a v1.0.$BUILD_NUMBER -m "Release version 1.0.$BUILD_NUMBER"'
