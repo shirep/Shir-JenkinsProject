@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS= credentials('dockerhub')
-        //GIT_CREDENTIALS = credentials('git-credentials-id')
         }
 
     stages {
@@ -16,6 +15,7 @@ pipeline {
                 }
             }
         }
+
         stage('Docker Build Shir Python Image') {
             steps {
                 script {
