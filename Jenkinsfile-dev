@@ -53,7 +53,7 @@ pipeline {
         stage('Merge Dev to Main') {  
             steps{
 		        script {
-			withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'git-credentials-id', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+			withCredentials([[gitUsernamePassword(credentialsId: 'my-credentials-id', gitToolName: 'git-tool')]]) {
                         	sh 'git checkout main'
                         	sh 'git merge origin/dev'
                         	sh 'git tag -a v1.0.$BUILD_NUMBER -m "Release version 1.0.$BUILD_NUMBER"'
